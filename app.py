@@ -25,6 +25,16 @@ def create_app():
                 #print(l)
                 result, print_list, column_list, value_list = dpll(kb)
             elif method == 'Chaff_Similar':
+                l = list(set(kb))
+                literals = [(l[i], i+1) for i in range(len(l)) if l[i].isnumeric()]
+                print(literals)
+                firstline = "p cnf {} {}".format(len(literals), len(kb.splitlines()))
+                lista = [i.replace("!", "-") + ' 0\n' for i in kb.splitlines()]
+                print(firstline)
+                print(lista)
+                with open('input.cnf', 'w') as f:
+                    f.write(firstline + '\n')
+                    f.writelines(lista)
                 # Pysat
                 solver = getattr(solvers, 'DynamicLargestIndividualSumSolver')('input.cnf')
                 result, _, _, print_list, table_list = solver.run()
