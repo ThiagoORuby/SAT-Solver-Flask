@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+
+{% block home %}
+    <div class="row">
+        <div class = "col-5">
+            <form method="post" name="logic_form">
+                <div class="mb-3">
+                    <label for="kb" class="form-label">CNF Formulae:</label>
+                    <textarea class="form-control" id="kb" name="kb" rows="3" spellcheck="false" onBlur="setId(this.id)" required></textarea>
+                </div>
+                <div class="row text-center">
+                    <div class="col-6">
+                        <div class="dropdown">
+                            <select class="form-select" name="method">
+                                {% for i in ["Classic_DPLL", "Chaff_Similar"] %}
+                                    <option value = {{i}}>{{i}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                    <div class="row text-center mt-4">
+                        <div class="buttons btn-group me-2" role="group">
+                            <button type="submit" class="btn btn-dark">Check SAT</button>
+                        </div>
+                    </div>
+                    <div class="text-center mt-5" id ='scrolltable'>
+                        {% if result %}
+                            <p><b>RESULT: </b>{{result}}</p>
+                        {% endif %}
+                        {% if column_list %}
+                            <table class="table table-hover text-center">
+                                <thead>
+                                    <tr>
+                                        {% for i in column_list %}
+                                            <th> {{i}} </th>
+                                        {% endfor %}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if method == 'Chaff_Similar'%}
+                                    {% for i in value_list %}
+                                        <tr>
+                                            {% for j in i %}
+                                                {% if j == -1 %}
+                                                    <th>*</th>
+                                                {% else %}
+                                                    <th> {{j}} </th>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                    {% else %}
+                                    <tr>
+                                        {% for i in value_list %}
+                                            <th> {{i}} </th>
+                                        {% endfor %}
+                                    </tr>
+                                    {% endif %}
+                                </tbody>
+                            </table>
+                        {% endif%}
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class = "col-7", id="coltable">
+            <div class="text-center mb-4 mt-3"><h4>Problem Solution</h4></div>
+            <div id="scrolltable">
+                {%if print_list %}
+                    {% for i in print_list %}
+                            {% if i[0] == 'hr' %}
+                                <hr>
+                            {% elif i[1] == 'b' %}
+                                <p><b>{{i[0]}}</b></p>
+                            {% else %}
+                                <p style="color: {{i[1]}};">{{i[0]}}</p>
+                            {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block about %}
+    <h2 class="mb-2">About the app:</h2>
+    <p>Flask web application that solves logic problems with different methods.</p>
+    <p><b>Created by:</b> Thiago Ribeiro</p>
+    <p><b>Email:</b> trs57595@gmail.com</p>
+{% endblock %}

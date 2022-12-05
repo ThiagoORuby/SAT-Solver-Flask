@@ -1,0 +1,9 @@
+#scrolltable{
+    overflow-y: auto;
+    white-space: nowrap;
+    height: 450px;
+}
+
+#coltable{
+    display: block;
+}
