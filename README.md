@@ -10,3 +10,9 @@ Click [here](https://sat-solver-com.onrender.com/) to access the Web App or clon
 ```sh
 python run.py
 ```
+
+#### Group members:
+
+- Thiago Ribeiro
+- Diogo Tallys
+- José Endson dos Santos
