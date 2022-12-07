@@ -21,26 +21,36 @@ def create_app():
             method = request.form['method']
             #print(kb)
             if method == "Classic_DPLL":
-                l = kb.splitlines()
-                #print(l)
-                result, print_list, column_list, value_list = dpll(kb)
+                    try:
+                        result, print_list, column_list, value_list = dpll(kb)
+                    except:
+                        print_list = [("There is something wrong with the input", "darkred")]
             elif method == 'Chaff_Similar':
-                l = list(set(kb))
-                literals = [(l[i], i+1) for i in range(len(l)) if l[i].isnumeric()]
-                print(literals)
+                kb2 = kb.replace("!", "")
+                kb2 = kb2.splitlines()
+                kb2 = [i.split(" ") for i in kb2]
+                literals = set()
+                for i in kb2:
+                    for j in i:
+                        if j.isnumeric():
+                            literals.add(j)
+                #print(literals)
                 firstline = "p cnf {} {}".format(len(literals), len(kb.splitlines()))
                 lista = [i.replace("!", "-") + ' 0\n' for i in kb.splitlines()]
-                print(firstline)
-                print(lista)
+                #print(firstline)
+                #print(lista)
                 with open('input.cnf', 'w') as f:
                     f.write(firstline + '\n')
                     f.writelines(lista)
                 # Pysat
-                solver = getattr(solvers, 'DynamicLargestIndividualSumSolver')('input.cnf')
-                result, _, _, print_list, table_list = solver.run()
-                result = "SATISFIABLE" if result else "UNSATISFIABLE"
-                column_list = table_list[0].keys()
-                value_list = [i.values() for i in table_list]
+                try:
+                    solver = getattr(solvers, 'DynamicLargestIndividualSumSolver')('input.cnf')
+                    result, _, _, print_list, table_list = solver.run()
+                    result = "SATISFIABLE" if result else "UNSATISFIABLE"
+                    column_list = table_list[0].keys()
+                    value_list = [i.values() for i in table_list]
+                except:
+                    print_list = [("There is something wrong with the input", "darkred")]
         return render_template('index.html', print_list = print_list, column_list = column_list, value_list = value_list, result = result, method = method)
     
     @app.route('/about')

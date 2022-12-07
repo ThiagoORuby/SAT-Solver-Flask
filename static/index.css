@@ -4,6 +4,12 @@
     height: 450px;
 }
 
+#scrolltable2{
+    overflow-y: auto;
+    white-space: nowrap;
+    height: 225px;
+}
+
 #coltable{
     display: block;
 }

@@ -23,42 +23,63 @@
                             <button type="submit" class="btn btn-dark">Check SAT</button>
                         </div>
                     </div>
-                    <div class="text-center mt-5" id ='scrolltable'>
+                    <div class="text-center mt-5" id ='scrolltable2'>
                         {% if result %}
                             <p><b>RESULT: </b>{{result}}</p>
-                        {% endif %}
-                        {% if column_list %}
-                            <table class="table table-hover text-center">
-                                <thead>
-                                    <tr>
-                                        {% for i in column_list %}
-                                            <th> {{i}} </th>
-                                        {% endfor %}
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% if method == 'Chaff_Similar'%}
-                                    {% for i in value_list %}
+                            {% if column_list %}
+                                <table class="table table-hover text-center">
+                                    <thead>
                                         <tr>
-                                            {% for j in i %}
-                                                {% if j == -1 %}
-                                                    <th>*</th>
-                                                {% else %}
-                                                    <th> {{j}} </th>
-                                                {% endif %}
+                                            {% for i in column_list %}
+                                                <th> {{i}} </th>
                                             {% endfor %}
                                         </tr>
-                                    {% endfor %}
-                                    {% else %}
-                                    <tr>
+                                    </thead>
+                                    <tbody>
+                                        {% if method == 'Chaff_Similar'%}
                                         {% for i in value_list %}
-                                            <th> {{i}} </th>
+                                            <tr>
+                                                {% for j in i %}
+                                                    {% if j == -1 %}
+                                                        <th>*</th>
+                                                    {% else %}
+                                                        <th> {{j}} </th>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
                                         {% endfor %}
-                                    </tr>
-                                    {% endif %}
-                                </tbody>
-                            </table>
-                        {% endif%}
+                                        {% else %}
+                                        <tr>
+                                            {% for i in value_list %}
+                                                <th> {{i}} </th>
+                                            {% endfor %}
+                                        </tr>
+                                        {% endif %}
+                                    </tbody>
+                                </table>
+                            {% endif%}
+                        {% else %}
+                            <p style="color: red;">* Please, for DPLL, <b>use letters</b> to represent the literals, <br> while for Chaff, <b>use numbers</b>. The input must be in this format:</p>
+                            <div class="row">
+                                <div class="col">
+                                    <code>
+                                        !A B<br>
+                                        !B !C<br>
+                                        C !D<br>
+                                        !D A<br>
+                                        A B !C
+                                    </code>
+                                </div>
+                                <div class="col">
+                                    <code>
+                                        1 !4<br>
+                                        1 3<br>
+                                        !3 2 4<br>
+                                        1 !3
+                                    </code>
+                                </div>
+                            </div>
+                        {% endif %}
                     </div>
                 </div>
             </form>
@@ -84,7 +105,7 @@
 
 {% block about %}
     <h2 class="mb-2">About the app:</h2>
-    <p>Flask web application that solves SAT problem with different methods. Solvers based on this Github repo: </p>
+    <p>Flask web application that solves SAT problem with different methods. The solvers were based on these Github repos: </p>
     <ul>
         <li>
             <a href="https://github.com/z11i/pysat">https://github.com/z11i/pysat</a>
